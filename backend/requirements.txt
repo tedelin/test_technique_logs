@@ -1,2 +1,11 @@
 fastapi[standard]>=0.113.0,<0.114.0
 pydantic>=2.7.0,<3.0.0
+certifi==2025.7.14
+charset-normalizer==3.4.2
+Events==0.5
+idna==3.10
+opensearch-py==3.0.0
+python-dateutil==2.9.0.post0
+requests==2.32.4
+six==1.17.0
+urllib3>=1.26,<1.27
