@@ -1,0 +1,35 @@
+services:
+  frontend:
+    build:
+      context: frontend
+    container_name: frontend
+    environment:
+      - VITE_BACKEND_URL=${BACKEND_URL}
+    ports:
+      - 5173:5173
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+  backend:
+    build:
+      context: backend
+    container_name: backend
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend/app:/code/app
+  opensearch-node:
+    image: opensearchproject/opensearch:2.11.1
+    container_name: opensearch-node
+    environment:
+      - discovery.type=single-node
+      - "DISABLE_SECURITY_PLUGIN=true"
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+
+volumes:
+  opensearch-data:
