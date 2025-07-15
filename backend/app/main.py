@@ -1,15 +1,19 @@
 from typing import Union
-
-from fastapi import FastAPI
+from opensearchpy import OpenSearch
+from app.models.log import Log
+from fastapi import FastAPI, Body
+from datetime import datetime
+from typing import Annotated
+import os
 
 app = FastAPI()
+host = os.getenv("OPENSEARCH_HOST", "http://opensearch-node:9200")
+client = OpenSearch(hosts=[host])
 
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World!"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.post("/logs/")
+async def create_logs(log: Annotated[Log, Body(embed=True)]):
+    dt = datetime.fromisoformat(log.timestamp.replace("Z", "+00:00"))
+    index = f"logs-{dt.year}.{dt.month}.{dt.day}"
+    response = client.index(index=index, body=log.dict())
+    print(log, response)
+    return {"log": log, "id": response["_id"]}
