@@ -9,7 +9,6 @@ import os
 
 app = FastAPI()
 front_port = os.getenv("VITE_PORT")
-print(front_port)
 origins = [
     f"http://localhost:{front_port}",
     f"https://frontend:{front_port}",
@@ -54,6 +53,7 @@ def search_logs(q: Union[str, None] = None, level: Union[str, None] = None, serv
             }
         })
     query = {
+        'size': 20,
         "query": {
             "bool": {
                 "must": must_clauses,
