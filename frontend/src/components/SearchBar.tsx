@@ -33,9 +33,14 @@ export default function SearchBar() {
     <>
       <div className="grid grid-cols-6 gap-3">
         <div className="col-span-3">
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Input
+            placeholder="🔍 Search by message"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
         <Input
+          placeholder="Search by service"
           value={serviceFilter}
           onChange={(e) => setServiceFilter(e.target.value)}
         />
@@ -52,7 +57,7 @@ export default function SearchBar() {
         </Select>
         <AddLog />
       </div>
-      <div className="mb-1 grid grid-cols-4 border-b pt-4 pb-2 text-center">
+      <div className="mb-2 grid grid-cols-4 border-b pt-4 pb-2 text-center font-bold">
         <div className="text-left">Date</div>
         <div>Message</div>
         <div>Level</div>

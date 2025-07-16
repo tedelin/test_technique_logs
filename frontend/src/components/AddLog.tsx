@@ -49,7 +49,7 @@ function AddLog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button className="font-bold text-green-500" variant="outline">
           <Plus />
           Add Log
         </Button>
