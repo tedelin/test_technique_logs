@@ -1,4 +1,3 @@
-import AddLog from "./components/AddLog";
 import SearchBar from "./components/SearchBar";
 import Layout from "./Layout";
 

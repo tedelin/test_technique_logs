@@ -1,4 +1,4 @@
-import path from "path"
+import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -7,10 +7,10 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    port: 5173,
+    port: parseInt((process.env.VITE_PORT as string) || "5173"),
     strictPort: true,
     host: true,
-    origin: "http://0.0.0.0:5173",
+    origin: `http://0.0.0.0:${process.env.VITE_PORT || 5173}`,
   },
   resolve: {
     alias: {
