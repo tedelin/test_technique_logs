@@ -8,11 +8,12 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 
 app = FastAPI()
+front_port = os.getenv("VITE_PORT")
+print(front_port)
 origins = [
-    "http://localhost:5173",
-    "https://frontend:5173",
+    f"http://localhost:{front_port}",
+    f"https://frontend:{front_port}",
 ]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -20,7 +21,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
-host = os.getenv("OPENSEARCH_HOST", "http://opensearch-node:9200")
+host = f"{os.getenv('OPENSEARCH_HOST')}:{os.getenv('OPENSEARCH_PORT')}"
 client = OpenSearch(hosts=[host])
 
 @app.post("/logs/")
