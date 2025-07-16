@@ -103,9 +103,7 @@ function AddLog() {
               </Button>
             </DialogClose>
             <DialogClose>
-              <Button variant="outline" type="submit">
-                Create Log
-              </Button>
+              <Button type="submit">Create Log</Button>
             </DialogClose>
           </DialogFooter>
         </form>

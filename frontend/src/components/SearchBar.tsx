@@ -58,7 +58,9 @@ export default function SearchBar() {
         <div>Level</div>
         <div>Service</div>
       </div>
-      <DisplayLogs logs={logs} />
+      <div className="h-full overflow-y-auto">
+        <DisplayLogs logs={logs} />
+      </div>
     </>
   );
 }
