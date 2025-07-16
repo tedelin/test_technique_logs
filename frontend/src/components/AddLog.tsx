@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import API from "@/lib/api";
+import { Plus } from "lucide-react";
 
 function AddLog() {
   const [level, setLevel] = useState("");
@@ -38,14 +39,20 @@ function AddLog() {
       },
     };
 
-    console.log(payload);
-    API.post("/logs/", payload);
+    API.post("/logs/", payload).then(() => {
+      setService("");
+      setLevel("");
+      setMessage("");
+    });
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Log</Button>
+        <Button variant="outline">
+          <Plus />
+          Add Log
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={addLog}>
@@ -56,10 +63,10 @@ function AddLog() {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
-            <div className="grid gap-3">
+            <div className="mt-4 grid gap-3">
               <Label htmlFor="level">Level</Label>
               <Select onValueChange={(value) => setLevel(value)}>
-                <SelectTrigger id="level">
+                <SelectTrigger className="w-full" id="level">
                   <SelectValue placeholder="Select a level" />
                 </SelectTrigger>
                 <SelectContent>
@@ -95,9 +102,11 @@ function AddLog() {
                 Cancel
               </Button>
             </DialogClose>
-            <Button variant="outline" type="submit">
-              Create Log
-            </Button>
+            <DialogClose>
+              <Button variant="outline" type="submit">
+                Create Log
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </form>
       </DialogContent>
