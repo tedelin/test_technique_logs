@@ -1,7 +1,13 @@
 import AddLog from "./components/AddLog";
+import SearchBar from "./components/SearchBar";
+import Layout from "./Layout";
 
 function App() {
-  return <AddLog />;
+  return (
+    <Layout>
+      <SearchBar />
+    </Layout>
+  );
 }
 
 export default App;
