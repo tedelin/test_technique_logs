@@ -102,7 +102,7 @@ function AddLog() {
                 Cancel
               </Button>
             </DialogClose>
-            <DialogClose>
+            <DialogClose asChild>
               <Button type="submit">Create Log</Button>
             </DialogClose>
           </DialogFooter>
