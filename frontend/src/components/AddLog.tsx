@@ -21,6 +21,7 @@ import {
 import { useState } from "react";
 import API from "@/lib/api";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
 
 function AddLog() {
   const [level, setLevel] = useState("");
@@ -29,6 +30,13 @@ function AddLog() {
 
   async function addLog(e: React.FormEvent) {
     e.preventDefault();
+
+    if (level == "") {
+      toast.error("Please select a level", {
+        duration: 3000,
+      });
+      return;
+    }
 
     const payload = {
       log: {
@@ -39,11 +47,16 @@ function AddLog() {
       },
     };
 
-    API.post("/logs/", payload).then(() => {
-      setService("");
-      setLevel("");
-      setMessage("");
-    });
+    API.post("/logs/", payload)
+      .then(() => {
+        setService("");
+        setLevel("");
+        setMessage("");
+        toast.success("Log successfully added", { duration: 2000 });
+      })
+      .catch((error) => {
+        toast.error(error.message, { duration: 3000 });
+      });
   }
 
   return (

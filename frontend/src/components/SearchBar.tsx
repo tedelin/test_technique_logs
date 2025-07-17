@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import AddLog from "./AddLog";
 import DisplayLogs from "./DisplayLogs";
+import { toast } from "sonner";
 
 export default function SearchBar() {
   const [levelFilter, setLevelFilter] = useState("");
@@ -21,10 +22,14 @@ export default function SearchBar() {
   function fetchLogs() {
     API.get(
       `/logs/search?q=${search}&level=${levelFilter}&service=${serviceFilter}`,
-    ).then(function (response) {
-      setLogs(response.data);
-      setLiveLogs([]);
-    });
+    )
+      .then(function (response) {
+        setLogs(response.data);
+        setLiveLogs([]);
+      })
+      .catch((error) => {
+        toast.error(error.message, { duration: 3000 });
+      });
   }
 
   useEffect(() => {
