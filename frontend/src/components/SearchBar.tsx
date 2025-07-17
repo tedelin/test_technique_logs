@@ -15,19 +15,38 @@ export default function SearchBar() {
   const [levelFilter, setLevelFilter] = useState("");
   const [serviceFilter, setServiceFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [logs, setLogs] = useState([]);
+  const [logs, setLogs] = useState<any[]>([]);
+  const [liveLogs, setLiveLogs] = useState<any[]>([]);
 
   function fetchLogs() {
     API.get(
       `/logs/search?q=${search}&level=${levelFilter}&service=${serviceFilter}`,
     ).then(function (response) {
       setLogs(response.data);
+      setLiveLogs([]);
     });
   }
 
   useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8000/ws");
+
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.event == "newLog") {
+        setLiveLogs((prevLogs) => [message.log, ...prevLogs]);
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  useEffect(() => {
     fetchLogs();
   }, [levelFilter, serviceFilter, search]);
+
+  const allLogs = [...liveLogs, ...logs];
 
   return (
     <>
@@ -57,14 +76,14 @@ export default function SearchBar() {
         </Select>
         <AddLog />
       </div>
-      <div className="mb-2 grid grid-cols-4 border-b pt-4 pb-2 text-center font-bold">
+      <div className="grid grid-cols-4 border-b pt-4 pb-2 text-center font-bold">
         <div className="text-left">Date</div>
         <div>Message</div>
         <div>Level</div>
         <div>Service</div>
       </div>
-      <div className="h-full overflow-y-auto">
-        <DisplayLogs logs={logs} />
+      <div className="flex flex-1 flex-col overflow-y-auto">
+        <DisplayLogs logs={allLogs} />
       </div>
     </>
   );
