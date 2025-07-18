@@ -116,3 +116,23 @@ def search_logs(q: Union[str, None] = None, level: Union[str, None] = None, serv
         for hit in response["hits"]["hits"]
     ]
     return results
+
+@app.get("/logs/levels")
+async def get_log_counts():
+    body = {
+        "size": 0, 
+        "aggs": {
+            "levels": {
+                "terms": {
+                    "field": "level.keyword",
+                    "size": 10 
+                }
+            }
+        }
+    }
+    resp = client.search(index="logs-*", body=body)
+    buckets = resp["aggregations"]["levels"]["buckets"]
+    result = {bucket["key"]: bucket["doc_count"] for bucket in buckets}
+    levels = ["ERROR", "WARNING", "DEBUG", "INFO"]
+    counts = {level: result.get(level, 0) for level in levels}
+    return counts
