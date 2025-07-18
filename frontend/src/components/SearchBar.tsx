@@ -11,6 +11,7 @@ import {
 import AddLog from "./AddLog";
 import DisplayLogs from "./DisplayLogs";
 import { toast } from "sonner";
+import LogsPieChart from "./LogsPieChart";
 
 export default function SearchBar() {
   const [levelFilter, setLevelFilter] = useState("");
@@ -55,10 +56,10 @@ export default function SearchBar() {
 
   return (
     <>
-      <div className="grid grid-cols-6 gap-3">
-        <div className="col-span-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex w-full flex-row">
           <Input
-            placeholder="🔍 Search by message"
+            placeholder="Search by message"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -80,6 +81,7 @@ export default function SearchBar() {
           </SelectContent>
         </Select>
         <AddLog />
+        <LogsPieChart />
       </div>
       <div className="grid grid-cols-4 border-b pt-4 pb-2 text-center font-bold">
         <div className="text-left">Date</div>

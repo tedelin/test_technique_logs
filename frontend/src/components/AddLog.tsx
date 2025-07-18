@@ -5,12 +5,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { Select } from "@/components/ui/select";
 import {
   SelectContent,

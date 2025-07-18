@@ -2,6 +2,7 @@ import { Toaster, type ToasterProps } from "sonner";
 import SearchBar from "./components/SearchBar";
 import Layout from "./Layout";
 import { useTheme } from "./components/theme-provider";
+import LogsPieChart from "./components/LogsPieChart";
 
 function App() {
   const { theme } = useTheme();
