@@ -18,7 +18,6 @@ export default function SearchBar() {
   const [serviceFilter, setServiceFilter] = useState("");
   const [search, setSearch] = useState("");
   const [logs, setLogs] = useState<any[]>([]);
-  const [liveLogs, setLiveLogs] = useState<any[]>([]);
 
   function fetchLogs() {
     API.get(
@@ -26,7 +25,6 @@ export default function SearchBar() {
     )
       .then(function (response) {
         setLogs(response.data);
-        setLiveLogs([]);
       })
       .catch((error) => {
         toast.error(error.message, { duration: 3000 });
@@ -34,25 +32,8 @@ export default function SearchBar() {
   }
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8000/ws");
-
-    socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      if (message.event == "newLog") {
-        setLiveLogs((prevLogs) => [message.log, ...prevLogs]);
-      }
-    };
-
-    return () => {
-      socket.close();
-    };
-  }, []);
-
-  useEffect(() => {
     fetchLogs();
   }, [levelFilter, serviceFilter, search]);
-
-  const allLogs = [...liveLogs, ...logs];
 
   return (
     <>
@@ -90,7 +71,7 @@ export default function SearchBar() {
         <div>Service</div>
       </div>
       <div className="flex flex-1 flex-col overflow-y-auto">
-        <DisplayLogs logs={allLogs} />
+        <DisplayLogs logs={logs} setLogs={setLogs} />
       </div>
     </>
   );

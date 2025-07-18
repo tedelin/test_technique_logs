@@ -1,6 +1,28 @@
 import type { Log } from "@/lib/types";
+import { useEffect } from "react";
 
-export default function DisplayLogs({ logs }: { logs: Log[] }) {
+export default function DisplayLogs({
+  logs,
+  setLogs,
+}: {
+  logs: Log[];
+  setLogs: Function;
+}) {
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8000/ws");
+
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.event == "newLog") {
+        setLogs((prevLogs: Log[]) => [message.log, ...prevLogs]);
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
   return (
     <>
       {logs.map((log: Log) => (
