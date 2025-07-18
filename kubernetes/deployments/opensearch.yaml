@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logs-app-opensearch-deployment
+spec:
+  selector:
+    matchLabels:
+      app: logs-app-opensearch
+  template:
+    metadata:
+      labels:
+        app: logs-app-opensearch
+    spec:
+      containers:
+        - name: logs-app-opensearch
+          image: opensearchproject/opensearch:2.11.1
+          envFrom:
+            - configMapRef:
+                name: opensearch-config
+          ports:
+            - containerPort: 9200

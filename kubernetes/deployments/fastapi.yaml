@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logs-app-backend-deployment
+spec:
+  selector:
+    matchLabels:
+      app: logs-app-backend
+  template:
+    metadata:
+      labels:
+        app: logs-app-backend
+    spec:
+      containers:
+        - name: logs-app-backend
+          image: logs-app-backend:latest
+          imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: backend-config
+          ports:
+            - containerPort: 80
