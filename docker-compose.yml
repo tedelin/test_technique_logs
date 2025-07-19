@@ -6,6 +6,7 @@ services:
     environment:
       - VITE_BACKEND_URL=${BACKEND_URL}
       - VITE_PORT=${VITE_PORT}
+      - VITE_WS_URL=${VITE_WS_URL}
     ports:
       - ${VITE_PORT}:${VITE_PORT}
     volumes:
@@ -17,6 +18,7 @@ services:
     container_name: backend
     environment:
       - VITE_PORT=${VITE_PORT}
+      - FRONT_URL=${FRONT_URL}
       - OPENSEARCH_HOST=${OPENSEARCH_HOST}
       - OPENSEARCH_PORT=${OPENSEARCH_PORT}
     ports:

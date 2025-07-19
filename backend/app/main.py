@@ -10,10 +10,8 @@ import json
 import os
 
 app = FastAPI()
-front_port = os.getenv("VITE_PORT")
 origins = [
-    f"http://localhost:{front_port}",
-    f"https://frontend:{front_port}",
+    f"{os.getenv('FRONT_URL')}:{os.getenv('VITE_PORT')}"
 ]
 app.add_middleware(
     CORSMiddleware,

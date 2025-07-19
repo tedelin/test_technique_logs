@@ -9,7 +9,7 @@ export default function DisplayLogs({
   setLogs: Function;
 }) {
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8000/ws");
+    const socket = new WebSocket(import.meta.env.VITE_WS_URL);
 
     socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
