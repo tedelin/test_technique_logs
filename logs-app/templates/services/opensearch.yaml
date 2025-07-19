@@ -7,5 +7,5 @@ spec:
     app: logs-app-opensearch
   ports:
     - protocol: TCP
-      port: 9200
+      port: {{ .Values.opensearch.port | int }}
       targetPort: 9200

@@ -8,6 +8,6 @@ spec:
     app: logs-app-frontend
   ports:
     - protocol: TCP
-      port: 5173
-      targetPort: 5173
+      port: {{ .Values.frontend.port | int }}
+      targetPort: {{ .Values.frontend.port | int }}
       nodePort: 31000

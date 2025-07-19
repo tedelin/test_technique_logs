@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  VITE_BACKEND_URL: "http://{{ .Values.host }}:{{ .Values.backend.port }}"
+  VITE_WS_URL: "ws://{{ .Values.host }}:{{ .Values.backend.port }}/ws"
+  VITE_PORT: "{{ .Values.frontend.port }}"

@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: frontend-config
-data:
-  VITE_BACKEND_URL: "http://logs-app-backend-service:80"
-  VITE_WS_URL: "ws://logs-app-backend-service:80/ws"
-  VITE_PORT: "5173"
