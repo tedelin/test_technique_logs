@@ -51,11 +51,7 @@ export default function LogsPieChart() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          className="font-bold text-green-500"
-          variant="outline"
-          onClick={fetchLevels}
-        >
+        <Button className="font-bold" variant="outline" onClick={fetchLevels}>
           <ChartPie />
           Show Pie
         </Button>

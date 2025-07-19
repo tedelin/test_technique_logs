@@ -1,17 +1,17 @@
-import API from "@/lib/api";
-import { Input } from "./ui/input";
-import { useEffect, useState } from "react";
-import { Select } from "@/components/ui/select";
 import {
+  Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import API from "@/lib/api";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import AddLog from "./AddLog";
 import DisplayLogs from "./DisplayLogs";
-import { toast } from "sonner";
 import LogsPieChart from "./LogsPieChart";
+import { Input } from "./ui/input";
 
 export default function SearchBar() {
   const [levelFilter, setLevelFilter] = useState("");
@@ -61,8 +61,8 @@ export default function SearchBar() {
             <SelectItem value="DEBUG">Debug</SelectItem>
           </SelectContent>
         </Select>
-        <AddLog />
         <LogsPieChart />
+        <AddLog />
       </div>
       <div className="grid grid-cols-4 border-b pt-4 pb-2 text-center font-bold">
         <div className="text-left">Date</div>
