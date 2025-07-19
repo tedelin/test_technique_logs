@@ -64,7 +64,7 @@ export default function LogsPieChart() {
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center gap-2">
-          {logData && <Pie className="w-full" data={logData} />}
+          <Pie className="w-full" data={logData} />
         </div>
         <DialogFooter className="mt-4">
           <DialogClose asChild>

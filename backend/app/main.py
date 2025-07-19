@@ -1,7 +1,7 @@
 from typing import Union
 from opensearchpy import OpenSearch
 from app.models.log import Log
-from fastapi import FastAPI, Body, Query, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Body, Query, WebSocket, WebSocketDisconnect, Response
 from datetime import datetime
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
@@ -118,19 +118,21 @@ def search_logs(q: Union[str, None] = None, level: Union[str, None] = None, serv
 @app.get("/logs/levels")
 async def get_log_counts():
     body = {
-        "size": 0, 
+        "size": 0,
         "aggs": {
             "levels": {
                 "terms": {
                     "field": "level.keyword",
-                    "size": 10 
+                    "size": 10
                 }
             }
         }
     }
     resp = client.search(index="logs-*", body=body)
-    buckets = resp["aggregations"]["levels"]["buckets"]
-    result = {bucket["key"]: bucket["doc_count"] for bucket in buckets}
     levels = ["ERROR", "WARNING", "DEBUG", "INFO"]
+    if not resp.get("aggregations") or not resp["aggregations"].get("levels"):
+        return Response(status_code=200)
+    buckets = resp["aggregations"]["levels"].get("buckets", [])
+    result = {bucket["key"]: bucket["doc_count"] for bucket in buckets}
     counts = {level: result.get(level, 0) for level in levels}
     return counts
