@@ -1,49 +1,61 @@
-import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useEffect, useState } from "react";
-import api from "@/lib/api";
 import {
-  DialogFooter,
+  Dialog,
   DialogClose,
+  DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Dialog,
-  DialogContent,
 } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
+import api from "@/lib/api";
+import {
+  ArcElement,
+  Chart as ChartJS,
+  Legend,
+  Tooltip,
+  type ChartData,
+} from "chart.js";
 import { ChartPie } from "lucide-react";
+import { useState } from "react";
+import { Pie } from "react-chartjs-2";
+import { Button } from "./ui/button";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function LogsPieChart() {
-  const [logData, setLogData] = useState(null);
+  const [logData, setLogData] = useState<ChartData<"pie">>({
+    labels: [],
+    datasets: [],
+  });
 
-  useEffect(() => {
-    api.get("/logs/levels").then((response) => setLogData(response.data));
-  }, []);
+  function fetchLevels() {
+    api.get("/logs/levels").then((response) => {
+      const labels = Object.keys(response.data);
+      const values = Object.values(response.data).map((v) => Number(v));
 
-  if (!logData) return <div>Loading...</div>;
-
-  const labels = Object.keys(logData);
-  const values = Object.values(logData);
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        data: values,
-        backgroundColor: ["#dc2626", "#facc15", "#60a5fa", "#4ade80"],
-        borderWidth: 1,
-      },
-    ],
-  };
+      const data = {
+        labels,
+        datasets: [
+          {
+            data: values,
+            backgroundColor: ["#dc2627", "#facc15", "#60a5fa", "#4ade80"],
+            borderWidth: 2,
+          },
+        ],
+      };
+      setLogData(data);
+    });
+  }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-bold text-green-500" variant="outline">
+        <Button
+          className="font-bold text-green-500"
+          variant="outline"
+          onClick={fetchLevels}
+        >
           <ChartPie />
           Show Pie
         </Button>
@@ -56,7 +68,7 @@ export default function LogsPieChart() {
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center gap-2">
-          <Pie className="w-full" data={data} />
+          {logData && <Pie className="w-full" data={logData} />}
         </div>
         <DialogFooter className="mt-4">
           <DialogClose asChild>
